@@ -2,7 +2,7 @@ console.log('it works');
 const shoppingForm = document.querySelector('.shopping');
 const list = document.querySelector('.list');
 
-// We need an array to hold or  STATE
+// We need an array to hold or  STATE or store the values
 let items = []; // let
 
 // Handling Submit
@@ -49,10 +49,9 @@ const restoreFromTheLocalStorage = () => {
     const lsItems = JSON.parse(localStorage.getItem('items'));
     console.log(lsItems)
     if (lsItems) {
-        items.push(...lsItems);
+        items.push(...lsItems); // Spread
         list.dispatchEvent(new CustomEvent('itemUpdated'));
-    }
-    
+    }    
 };
 
 // Delete Item
@@ -66,7 +65,7 @@ const deleteItem = (id) => {
 const markAsComplete = (id) => {
     console.log(id);
     const itemRef = items.find(item => item.id === id);
-    itemRef.complete = !itemRef.complete;
+    itemRef.complete = !itemRef.complete; // Check whether it is complete or not
     list.dispatchEvent(new CustomEvent('itemUpdated'));
 }
 
@@ -79,14 +78,14 @@ list.addEventListener('itemUpdated', displayItems);
 // Mirror to the local storage
 list.addEventListener('itemUpdated', mirrorToTheLocalStorage);
 
-// Delete list items
+// Delete and check(checkbox) the list items
 list.addEventListener('click', (e) => {
-    const id = Number(e.target.value);
+    const id = Number(e.target.value); // Grabbing and converting thr id into number
     // Delete button
     if (e.target.matches('button')) {
         deleteItem(id);
     }
-    // Checkbox
+    // Checkbox if the items are complete
     if (e.target.matches('input[type="checkbox"]')) {
         markAsComplete(id);
     }
